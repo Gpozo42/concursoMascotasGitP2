@@ -157,7 +157,7 @@ public class Evaluacion {
         
         return evaluaciones;
     }
-
+    
     @Override
     public String toString() {
         return this.id + "\\|" + this.idInscripcion + "\\|" + this.idMiembroJurado + "\\|" + this.nota + "\\|" + this.idCriterio;
