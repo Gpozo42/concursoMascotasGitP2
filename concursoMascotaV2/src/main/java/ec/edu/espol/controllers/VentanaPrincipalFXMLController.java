@@ -5,12 +5,19 @@
  */
 package ec.edu.espol.controllers;
 
+import ec.edu.espol.concursomascotav2.App;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -54,7 +61,16 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaConcurso(MouseEvent event) {
+        try{
+        FXMLLoader loader=App.loadFXML("panelConcurso");
+        Scene sc=new Scene(loader.load(),800,500);
+        Stage sg=new Stage();
+        sg.setScene(sc);
+        sg.show();
+    }catch (IOException e){
+        Alert a=new Alert(AlertType.ERROR,"no se pudo abrir la ventana");
     }
+}
 
     @FXML
     private void escenaPremio(MouseEvent event) {

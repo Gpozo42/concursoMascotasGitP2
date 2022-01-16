@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -146,36 +147,25 @@ public class Concurso {
     }
 
     //FUNCIONES ESTATICAS
-    public static Concurso nextConcurso(Scanner sc) {//Opcion 3
-        System.out.println("Ingrese el nombre del concurso:");
-        String nombre = sc.next();
-        System.out.println("Ingrese el nombre de la tematica:");
-        String tematica = sc.next();
-        System.out.println("Ingrese el costo por participar:");
-        double coste = sc.nextDouble();
-        System.out.println("Ingrese la fecha del concurso:");
-        String fecha = sc.next();
-        System.out.println("Ingrese la fecha inicial de incripcion:");
-        String fechaI = sc.next();
-        System.out.println("Ingrese la fecha final de inscripcion:");
-        String fechaF = sc.next();
-        Concurso c = new Concurso(nombre, tematica, coste, LocalDate.parse(fecha), LocalDate.parse(fechaI), LocalDate.parse(fechaF));
+    public static Concurso nextConcurso(String nombre, String tematica, String coste, String fecha, String fechaI, String fechaF) throws NumberFormatException,DateTimeParseException {//Opcion 3
+        Concurso c = new Concurso(nombre, tematica, Double.parseDouble(coste), LocalDate.parse(fecha), LocalDate.parse(fechaI), LocalDate.parse(fechaF));
         return c;
     }
 
-    public static Concurso anexarNombre(String nombre) {//verifica si el inombre de la clase concurso es igual al enviado por teclado
+    public static Concurso anexarNombre(String nombre) throws ConcursoNotIndexException {//verifica si el inombre de la clase concurso es igual al enviado por teclado
         ArrayList<Concurso> lista = Concurso.readFile("concursos.txt");
-        while (true) {
-            for (Concurso c : lista) {
-                if (nombre.equals(c.nombre)) {
-                    return c;
-                }
+        int verificacion = 0;
+        for (Concurso c : lista) {
+            if (nombre.equals(c.nombre)) {
+                verificacion++;
+                return c;
             }
-            System.out.println("Ingrese un nombre de concurso ya existente: ");
-            Scanner sc = new Scanner(System.in);
-            sc.useDelimiter("\n");
-            nombre = sc.next();
         }
+        if (verificacion == 0) {
+            throw new ConcursoNotIndexException();
+        }
+        return null;
     }
+
 
 }

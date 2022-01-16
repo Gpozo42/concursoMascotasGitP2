@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -84,7 +85,7 @@ public class Criterio {
 
     public void saveFile(String archivo) {//esta en modo a(para añadir)
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
-            pw.println(this.id + "|" + this.descripcion + "|" + this.idConcurso+"|" + this.concurso.toString());
+            pw.println(this.id + "|" + this.descripcion + "|" + this.idConcurso + "|" + this.concurso.toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -107,29 +108,28 @@ public class Criterio {
         return criterios;
     }
 
-    //FUNCIONES ESTATICAS
-    public static void nextCriterio(Scanner sc) {
+    //FUNCIONES ESTATICAS 
+    public static void nextCriterio() throws ConcursoNotIndexException, InputMismatchException, MinorValueException {
         System.out.println("Ingrese la cantidad de criterios para el concurso:");
-        int cantidad = sc.nextInt();
-        while (cantidad <= 0) {
-            System.out.println("Ingrese un valor mayor a 0 para los criterios: ");
-            cantidad = sc.nextInt();
+        int cantidad = 1;//-------------------------------------------------
+        if (cantidad > 0) {
+            int sumador = 0;//o contador
+            String[] descripciones = new String[cantidad];
+            while (sumador < cantidad) {
+                System.out.println("Ingrese la descripcion del criterio " + (sumador + 1) + ":");
+                String descrip = "a";//-------------------------------------------------
+                descripciones[sumador] = descrip;
+                sumador++;
+            }
+            String nombreConcurso = "a";//-------------------------------------------------
+            Concurso valido = Concurso.anexarNombre(nombreConcurso);
+            for (int i = 0; i < cantidad; i++) {
+                Criterio p = new Criterio(descripciones[i], valido.getId(), valido);
+                p.saveFile("criterios.txt");
+            }
+        } else {
+            throw new MinorValueException();
         }
-        int sumador = 0;//o contador
-        String[] descripciones = new String[cantidad];
-        while (sumador < cantidad) {
-            System.out.println("Ingrese la descripcion del criterio " + (sumador + 1) + ":");
-            String descrip = sc.next();
-            descripciones[sumador] = descrip;
-            sumador++;
-        }
-        System.out.println("Ingrese el nombre del concurso: ");
-        String nombreConcurso = sc.next();
-        Concurso valido = Concurso.anexarNombre(nombreConcurso);
-        for (int i = 0; i < cantidad; i++) {
-            Criterio p = new Criterio(descripciones[i], valido.getId(), valido);
-            p.saveFile("criterios.txt");
-        }
-    }
 
+    }
 }
