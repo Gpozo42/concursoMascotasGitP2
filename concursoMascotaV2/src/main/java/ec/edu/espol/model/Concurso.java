@@ -147,25 +147,21 @@ public class Concurso {
     }
 
     //FUNCIONES ESTATICAS
-    public static Concurso nextConcurso(String nombre, String tematica, String coste, String fecha, String fechaI, String fechaF) throws NumberFormatException,DateTimeParseException {//Opcion 3
+    public static Concurso nextConcurso(String nombre, String tematica, String coste, String fecha, String fechaI, String fechaF) throws NumberFormatException, DateTimeParseException {//Opcion 3
         Concurso c = new Concurso(nombre, tematica, Double.parseDouble(coste), LocalDate.parse(fecha), LocalDate.parse(fechaI), LocalDate.parse(fechaF));
         return c;
     }
 
     public static Concurso anexarNombre(String nombre) throws ConcursoNotIndexException {//verifica si el inombre de la clase concurso es igual al enviado por teclado
         ArrayList<Concurso> lista = Concurso.readFile("concursos.txt");
-        int verificacion = 0;
         for (Concurso c : lista) {
-            if (nombre.equals(c.nombre)) {
-                verificacion++;
+            if (nombre.equals(c.nombre)) {           
                 return c;
             }
         }
-        if (verificacion == 0) {
-            throw new ConcursoNotIndexException();
-        }
-        return null;
-    }
 
+        throw new ConcursoNotIndexException();
+
+    }
 
 }

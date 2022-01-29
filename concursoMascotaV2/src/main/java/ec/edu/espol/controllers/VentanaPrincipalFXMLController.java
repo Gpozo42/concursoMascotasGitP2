@@ -49,7 +49,7 @@ public class VentanaPrincipalFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void escenaDuenio(MouseEvent event) {
@@ -61,23 +61,43 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaConcurso(MouseEvent event) {
-        try{
-        FXMLLoader loader=App.loadFXML("panelConcurso");
-        Scene sc=new Scene(loader.load(),800,500);
-        Stage sg=new Stage();
-        sg.setScene(sc);
-        sg.show();
-    }catch (IOException e){
-        Alert a=new Alert(AlertType.ERROR,"no se pudo abrir la ventana");
+        
+        try {
+            FXMLLoader loader = App.loadFXML("panelConcurso");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "no se pudo abrir la ventana");
+        }
     }
-}
 
     @FXML
     private void escenaPremio(MouseEvent event) {
+        
+        try {
+            FXMLLoader loader = App.loadFXML("panelPeticionPremio");
+            Scene sc = new Scene(loader.load(), 800, 400);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "no se pudo abrir la ventana");
+        }
     }
 
     @FXML
     private void escenaCriterio(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("panelPeticionCriterio");
+            Scene sc = new Scene(loader.load(), 800, 400);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "no se pudo abrir la ventana");
+        }
     }
 
     @FXML
@@ -91,5 +111,5 @@ public class VentanaPrincipalFXMLController implements Initializable {
     @FXML
     private void escenaEvaluacion(MouseEvent event) {
     }
-    
+
 }

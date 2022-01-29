@@ -121,7 +121,7 @@ public class Premio {
         return premios;
     }
 
-    public static void nextPremio() throws NumberFormatException, InputMismatchException, MinorValueException, ConcursoNotIndexException {
+    public static void nextPremio(Concurso C) throws NumberFormatException, InputMismatchException, MinorValueException, ConcursoNotIndexException {
         int cantidad = 1;//----------------------------------------
         if (cantidad > 0) {
             int sumador = 0;//o contador
