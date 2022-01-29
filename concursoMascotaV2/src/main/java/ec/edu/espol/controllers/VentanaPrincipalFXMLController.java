@@ -77,8 +77,10 @@ public class VentanaPrincipalFXMLController implements Initializable {
     private void escenaPremio(MouseEvent event) {
         
         try {
-            FXMLLoader loader = App.loadFXML("panelPeticionPremio");
+            FXMLLoader loader = App.loadFXML("panelPeticion");
             Scene sc = new Scene(loader.load(), 800, 400);
+            PanelPeticionController pp=loader.getController();
+            pp.llenarCamposPremio();
             Stage sg = new Stage();
             sg.setScene(sc);
             sg.show();
@@ -90,8 +92,10 @@ public class VentanaPrincipalFXMLController implements Initializable {
     @FXML
     private void escenaCriterio(MouseEvent event) {
         try {
-            FXMLLoader loader = App.loadFXML("panelPeticionCriterio");
+            FXMLLoader loader = App.loadFXML("panelPeticion");
             Scene sc = new Scene(loader.load(), 800, 400);
+            PanelPeticionController pp=loader.getController();
+            pp.llenarCamposPremio();
             Stage sg = new Stage();
             sg.setScene(sc);
             sg.show();

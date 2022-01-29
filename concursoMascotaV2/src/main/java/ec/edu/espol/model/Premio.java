@@ -121,26 +121,10 @@ public class Premio {
         return premios;
     }
 
-    public static void nextPremio(Concurso C) throws NumberFormatException, InputMismatchException, MinorValueException, ConcursoNotIndexException {
-        int cantidad = 1;//----------------------------------------
-        if (cantidad > 0) {
-            int sumador = 0;//o contador
-            String[] descripciones = new String[cantidad];
-            while (sumador < cantidad) {
-                String descrip = "a";//----------------------------------------
-                descripciones[sumador] = descrip;
-                sumador++;
-            }
-            String nombreConcurso = "a";//----------------------------------------
-            Concurso valido = Concurso.anexarNombre(nombreConcurso);
-            for (int i = 0; i < cantidad; i++) {
-                Premio p = new Premio((i + 1), descripciones[i], valido.getId(), valido);
-                p.saveFile("premios.txt");
-            }
-        } else {
-            throw new MinorValueException();
-
-        }
-
+    public static void nextPremio(Concurso c, String descripcion, int lugar) {
+        
+        Premio p = new Premio((lugar + 1), descripcion, c.getId(), c);
+        p.saveFile("premios.txt");
+        
     }
 }

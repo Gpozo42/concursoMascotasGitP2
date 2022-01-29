@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -19,10 +18,12 @@ import javafx.scene.control.TextField;
  *
  * @author isaac
  */
-public class PanelPremioController implements Initializable {
+public class PanelClaseController implements Initializable {
 
     @FXML
     private Label lbPuesto;
+    @FXML
+    private Label lbNombre;
     @FXML
     private TextField lbDecripcion;
 
@@ -30,12 +31,23 @@ public class PanelPremioController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+   public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
 
     @FXML
     private void Confirmar(ActionEvent event) {
+        pasarDrescripcion();
+        
+    }
+    
+    public void editarCampos(String clase,int valor){
+        lbNombre.setText(clase);
+        lbPuesto.setText(""+valor);
+    }
+    
+    public String pasarDrescripcion(){
+        return lbDecripcion.getText();
     }
     
 }

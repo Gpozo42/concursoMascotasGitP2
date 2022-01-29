@@ -48,7 +48,7 @@ public class PanelConcursoController implements Initializable {
     }
 
     @FXML
-    private void regresar(MouseEvent event) {
+    public void regresar(MouseEvent event) {
         Stage stg = (Stage) ventana.getScene().getWindow();
         stg.close();
     }
@@ -63,10 +63,15 @@ public class PanelConcursoController implements Initializable {
         String fechaFinal = exFf.getText();
 
         try {
-            Concurso c = Concurso.nextConcurso(nombre, tematica, costo, fecha, fechaInicio, fechaFinal);
-            c.saveFile("concursos.txt");
-            Alert inf = new Alert(Alert.AlertType.INFORMATION, "Se ha guardado el concurso exitosamente");
-            inf.show();
+            if (nombre.equals("") || costo.equals("") || tematica.equals("") || fecha.equals("") || fechaInicio.equals("") || fechaFinal.equals("")) {
+                Alert a = new Alert(Alert.AlertType.ERROR, "Exiten campos vacios. Por favor, rellenarlos");
+                a.show();
+            } else {
+                Concurso c = Concurso.nextConcurso(nombre, tematica, costo, fecha, fechaInicio, fechaFinal);
+                c.saveFile("concursos.txt");
+                Alert inf = new Alert(Alert.AlertType.INFORMATION, "Se ha guardado el concurso exitosamente");
+                inf.show();
+            }
         } catch (NumberFormatException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "Se ha ingresado letras por numeros");
             a.show();

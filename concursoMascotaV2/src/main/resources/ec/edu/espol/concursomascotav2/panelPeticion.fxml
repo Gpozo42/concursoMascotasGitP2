@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="ventana" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controllers.PanelPeticionPremioController">
+<BorderPane fx:id="ventana" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controllers.PanelPeticionController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -22,14 +23,19 @@
         </rowConstraints>
          <children>
             <Label text="Nombre del Concurso  para anexar:" GridPane.halignment="RIGHT" />
-            <Label text="Cantidad de Premios:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label fx:id="lbClase" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
             <TextField fx:id="textoNombreC" GridPane.columnIndex="1" />
             <TextField fx:id="numeroDado" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="         Cantidad de " GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </center>
    <top>
-      <Label text="Premios" BorderPane.alignment="CENTER">
+      <Label fx:id="titulo" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
