@@ -109,8 +109,7 @@ public class Criterio {
     }
 
     //FUNCIONES ESTATICAS 
-    public static void nextCriterio(Concurso c, String descripcion) throws ConcursoNotIndexException, InputMismatchException{
-
+    public static void nextCriterio(Concurso c, String descripcion) {
         Criterio cr=new Criterio(descripcion,c.getId(),c);
         cr.saveFile("criterios.txt");
     }

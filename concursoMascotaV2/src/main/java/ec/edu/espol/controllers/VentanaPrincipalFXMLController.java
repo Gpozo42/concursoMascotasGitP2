@@ -95,7 +95,7 @@ public class VentanaPrincipalFXMLController implements Initializable {
             FXMLLoader loader = App.loadFXML("panelPeticion");
             Scene sc = new Scene(loader.load(), 800, 400);
             PanelPeticionController pp=loader.getController();
-            pp.llenarCamposPremio();
+            pp.llenarCamposCriterio();
             Stage sg = new Stage();
             sg.setScene(sc);
             sg.show();

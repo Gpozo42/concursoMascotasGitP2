@@ -45,7 +45,7 @@ public class PanelPeticionController implements Initializable {
     private TextField textoNombreC;
     @FXML
     private TextField numeroDado;
-    
+
     private TextField[] camposVacios;
 
     /**
@@ -68,35 +68,40 @@ public class PanelPeticionController implements Initializable {
         String concurso = textoNombreC.getText();
         String cantidad = numeroDado.getText();
         String nameClass = lbClase.getText();
-        
+
         try {
             if (concurso.equals("") || cantidad.equals("")) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Exiten campos vacios. Por favor, rellenarlos");
                 a.show();
             } else {
                 int puesto = Integer.parseInt(cantidad);
-                if(puesto < 1){
+                if (puesto < 1) {
                     throw new MinorValueException();
                 }
                 Stage stg = (Stage) ventana.getScene().getWindow();
                 stg.close();
+                FXMLLoader loader = App.loadFXML("panelClase");
+                Scene sc = new Scene(loader.load(), 600, 400);
+                PanelClaseController pcc = loader.getController();
                 if (nameClass.equals("premios")) {
-                    FXMLLoader loader = App.loadFXML("panelClase");
-                    Scene sc = new Scene(loader.load(), 600, 400);
-                    PanelClaseController pcc = loader.getController();
                     ////info que se enviara a otra ventana
-                    pcc.generarCampos(puesto); 
+                    pcc.generarCampos(puesto);
                     pcc.nombreClase(nameClass);
                     pcc.nombreConcurso(concurso);
                     pcc.Cantidad(cantidad);
                     //////
-                    Stage sg = new Stage();                   
-                    sg.setScene(sc);
-                    sg.show();
                 }
                 if (nameClass.equals("criterios")) {
-
+                    ////info que se enviara a otra ventana
+                    pcc.generarCampos(puesto);
+                    pcc.nombreClase(nameClass);
+                    pcc.nombreConcurso(concurso);
+                    pcc.Cantidad(cantidad);
+                    //////
                 }
+                Stage sg = new Stage();
+                sg.setScene(sc);
+                sg.show();
 
             }
 

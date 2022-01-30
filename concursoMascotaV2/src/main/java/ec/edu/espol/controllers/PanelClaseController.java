@@ -5,14 +5,19 @@
  */
 package ec.edu.espol.controllers;
 
+import ec.edu.espol.concursomascotav2.App;
 import ec.edu.espol.model.Concurso;
 import ec.edu.espol.model.ConcursoNotIndexException;
+import ec.edu.espol.model.Criterio;
 import ec.edu.espol.model.Premio;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -51,15 +56,18 @@ public class PanelClaseController implements Initializable {
                 if (nameClass.equals("premios")) {
                     Concurso c = Concurso.anexarNombre(nameConcurso);
                     Premio.nextPremio(c, campos[i].getText(), i);
-                }
-                if (nameClass.equals("concursos")) {
 
+                }
+                if (nameClass.equals("criterios")) {
+                    Concurso c = Concurso.anexarNombre(nameConcurso);
+                    Criterio.nextCriterio(c, nameClass);
                 }
             }
             Stage stg = (Stage) vb.getScene().getWindow();
             stg.close();
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Se han guardado los premios satisfactoriamente");
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Se han guardado los datos satisfactoriamente");
             a.show();
+
         } catch (ConcursoNotIndexException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "No se ha encontrado un concurso con ese nombre.");
             a.show();
