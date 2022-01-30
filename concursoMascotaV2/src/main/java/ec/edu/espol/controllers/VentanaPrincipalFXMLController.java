@@ -57,11 +57,20 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaMascota(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("panelMascota");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "no se pudo abrir la ventana");
+        }
     }
 
     @FXML
     private void escenaConcurso(MouseEvent event) {
-        
+
         try {
             FXMLLoader loader = App.loadFXML("panelConcurso");
             Scene sc = new Scene(loader.load(), 800, 500);
@@ -75,11 +84,11 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaPremio(MouseEvent event) {
-        
+
         try {
             FXMLLoader loader = App.loadFXML("panelPeticion");
             Scene sc = new Scene(loader.load(), 800, 400);
-            PanelPeticionController pp=loader.getController();
+            PanelPeticionController pp = loader.getController();
             pp.llenarCamposPremio();
             Stage sg = new Stage();
             sg.setScene(sc);
@@ -94,7 +103,7 @@ public class VentanaPrincipalFXMLController implements Initializable {
         try {
             FXMLLoader loader = App.loadFXML("panelPeticion");
             Scene sc = new Scene(loader.load(), 800, 400);
-            PanelPeticionController pp=loader.getController();
+            PanelPeticionController pp = loader.getController();
             pp.llenarCamposCriterio();
             Stage sg = new Stage();
             sg.setScene(sc);

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controllers.PanelMascotaController">
+   <center>
+      <GridPane fx:id="ventana" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="130.39998779296874" minHeight="10.0" prefHeight="130.39998779296874" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="147.39995422363282" minHeight="10.0" prefHeight="128.00001220703123" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="110.60001220703128" minHeight="10.0" prefHeight="88.9999969482422" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Nombre de la mascota:" GridPane.halignment="RIGHT" />
+            <Label text="Tipo de mascota:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+            <Label text="Raza de la mascota: " GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label text="Correo del Dueño:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label text="mascota(AAA-MM-DD):" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <TextField fx:id="tfNombre" GridPane.columnIndex="1" />
+            <TextField fx:id="tfRaza" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tfFecha" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tfTipo" GridPane.columnIndex="3" />
+            <TextField fx:id="tfCorreo" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label text="Fecha de Nacimiento de la" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <Label text="Guardar  Mascota" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#regresar" text="Regresar" GridPane.halignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#guardar" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>

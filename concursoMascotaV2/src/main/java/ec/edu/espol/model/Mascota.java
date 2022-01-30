@@ -5,12 +5,15 @@
  */
 package ec.edu.espol.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 /**
  *
@@ -98,49 +101,45 @@ public class Mascota {
     public void setInscripciones(ArrayList<Inscripcion> inscripciones) {
         this.inscripciones = inscripciones;
     }
+    public String toString(){
+        return this.id + "|" + this.nombre + "|" + this.tipo + "|" + this.raza + "|" + this.fechaNacimiento + "|" + this.idDueno + "|"+this.dueno.toString();
+    }
 
     
     //ARCHIVOS ECRITURA
     public void saveFile(String archivo) {//esta en append 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
-            pw.println(this.id + "|" + this.nombre + "|" + this.tipo + "|" + this.raza + "|" + this.fechaNacimiento + "|" + this.idDueno + "|");
+            pw.println();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     //ARCHIVOS LECTURA
-    public static ArrayList<Mascota> readFile(String archivo) {
-        ArrayList<Mascota> listaMascota = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File(archivo))) {
-            while (sc.hasNextLine()) {//mientras exista la sguiente linea
-                String linea = sc.nextLine();
+        public static ArrayList<Mascota> readFile(String archivo) {
+        ArrayList<Mascota> mascota = new ArrayList<>();
+        try (FileReader read = new FileReader(archivo); BufferedReader bf = new BufferedReader(read)) {
+            String linea;
+            while ((linea = bf.readLine()) != null) {
                 String[] datos = linea.split("\\|");
-                Mascota m = new Mascota(Integer.parseInt(datos[0]), datos[1], datos[2], datos[3], LocalDate.parse(datos[4]), Integer.parseInt(datos[5]), new Dueño(Integer.parseInt(datos[6]), datos[7], datos[8], datos[9], datos[10], datos[11]));//se crea un objeto premio
-                listaMascota.add(m);
+                Mascota m = new Mascota(Integer.parseInt(datos[0]),
+                        datos[1],
+                        datos[2],
+                        datos[3],
+                        LocalDate.parse(datos[4]),
+                        Integer.parseInt(datos[5]), 
+                        new Dueño(Integer.parseInt(datos[6]), datos[7], datos[8], datos[9], datos[10], datos[11]));//se crea un objeto mascota
+                mascota.add(m);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (IOException ex) {
+            System.out.println("ERROR al leer el archivo");
         }
-
-        return listaMascota;
+        return mascota;
     }
 
     //funciones estaticas
-    public static void nextMascota(Scanner sc) {
-        System.out.println("Ingrese el nombre de la mascota:");
-        String nombre = sc.next();
-        System.out.println("Ingrese el tipo:");
-        String tipo = sc.next();
-        System.out.println("Ingrese la raza:");
-        String raza = sc.next();
-        System.out.println("Ingrese la fecha de nacimiento:");
-        String fecha = sc.next();
-
-        System.out.println("Ingrese su email: ");
-        String elEmail = sc.next();
-        Dueño valido = Dueño.anexarEmail(elEmail);
-        Mascota p = new Mascota(nombre, tipo, raza, LocalDate.parse(fecha), valido.getId(), valido);
+    public static void nextMascota(String nombre, String tipo, String raza, String fecha, Dueño dueno) { 
+        Mascota p = new Mascota(nombre, tipo, raza, LocalDate.parse(fecha), dueno.getId(), dueno);
         p.saveFile("mascotas.txt");
     }
 
