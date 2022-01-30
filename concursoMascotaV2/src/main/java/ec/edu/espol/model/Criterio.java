@@ -109,27 +109,9 @@ public class Criterio {
     }
 
     //FUNCIONES ESTATICAS 
-    public static void nextCriterio() throws ConcursoNotIndexException, InputMismatchException, MinorValueException {
-        System.out.println("Ingrese la cantidad de criterios para el concurso:");
-        int cantidad = 1;//-------------------------------------------------
-        if (cantidad > 0) {
-            int sumador = 0;//o contador
-            String[] descripciones = new String[cantidad];
-            while (sumador < cantidad) {
-                System.out.println("Ingrese la descripcion del criterio " + (sumador + 1) + ":");
-                String descrip = "a";//-------------------------------------------------
-                descripciones[sumador] = descrip;
-                sumador++;
-            }
-            String nombreConcurso = "a";//-------------------------------------------------
-            Concurso valido = Concurso.anexarNombre(nombreConcurso);
-            for (int i = 0; i < cantidad; i++) {
-                Criterio p = new Criterio(descripciones[i], valido.getId(), valido);
-                p.saveFile("criterios.txt");
-            }
-        } else {
-            throw new MinorValueException();
-        }
+    public static void nextCriterio(Concurso c, String descripcion) throws ConcursoNotIndexException, InputMismatchException{
 
+        Criterio cr=new Criterio(descripcion,c.getId(),c);
+        cr.saveFile("criterios.txt");
     }
 }

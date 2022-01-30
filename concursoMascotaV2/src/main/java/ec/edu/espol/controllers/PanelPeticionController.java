@@ -8,6 +8,7 @@ package ec.edu.espol.controllers;
 import ec.edu.espol.concursomascotav2.App;
 import ec.edu.espol.model.Concurso;
 import ec.edu.espol.model.ConcursoNotIndexException;
+import ec.edu.espol.model.MinorValueException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,6 +45,8 @@ public class PanelPeticionController implements Initializable {
     private TextField textoNombreC;
     @FXML
     private TextField numeroDado;
+    
+    private TextField[] camposVacios;
 
     /**
      * Initializes the controller class.
@@ -65,34 +68,31 @@ public class PanelPeticionController implements Initializable {
         String concurso = textoNombreC.getText();
         String cantidad = numeroDado.getText();
         String nameClass = lbClase.getText();
-Alert k = new Alert(Alert.AlertType.ERROR, nameClass);
-            k.show();
+        
         try {
             if (concurso.equals("") || cantidad.equals("")) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Exiten campos vacios. Por favor, rellenarlos");
                 a.show();
             } else {
-                int lugar=Integer.parseInt(cantidad);
-                Concurso c = Concurso.anexarNombre(concurso);
+                int puesto = Integer.parseInt(cantidad);
+                if(puesto < 1){
+                    throw new MinorValueException();
+                }
                 Stage stg = (Stage) ventana.getScene().getWindow();
                 stg.close();
                 if (nameClass.equals("premios")) {
-                    for (int i = 0; i < lugar; i++) {
-                        FXMLLoader loader = App.loadFXML("panelClase");
-                        Scene sc = new Scene(loader.load(), 800, 500);
-                        PanelClaseController pcc = loader.getController();
-                        pcc.editarCampos(nameClass, i);
-                        Stage sg = new Stage();
-                        sg.setScene(sc);
-                        sg.show();
-                        String descripcion = "";
-                        while (descripcion.equals("")) {
-//                            pcc.pasarDrescripcion();
-                       }
-                        Alert a = new Alert(Alert.AlertType.ERROR, "1111111");
-                        a.show();
-
-                    }
+                    FXMLLoader loader = App.loadFXML("panelClase");
+                    Scene sc = new Scene(loader.load(), 600, 400);
+                    PanelClaseController pcc = loader.getController();
+                    ////info que se enviara a otra ventana
+                    pcc.generarCampos(puesto); 
+                    pcc.nombreClase(nameClass);
+                    pcc.nombreConcurso(concurso);
+                    pcc.Cantidad(cantidad);
+                    //////
+                    Stage sg = new Stage();                   
+                    sg.setScene(sc);
+                    sg.show();
                 }
                 if (nameClass.equals("criterios")) {
 
@@ -100,14 +100,14 @@ Alert k = new Alert(Alert.AlertType.ERROR, nameClass);
 
             }
 
-        } catch (ConcursoNotIndexException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "No se ha encontrado un concurso con ese nombre.");
-            a.show();
         } catch (NumberFormatException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "Se ha ingresado letras por numeros");
             a.show();
         } catch (IOException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "Error al abrir la ventana");
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            a.show();
+        } catch (MinorValueException ex) {
+            Alert a = new Alert(Alert.AlertType.ERROR, "Los digitos escritos no son numeros enteros o son menores a 1");
             a.show();
         }
     }
