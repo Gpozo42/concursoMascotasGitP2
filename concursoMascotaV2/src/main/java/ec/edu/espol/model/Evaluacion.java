@@ -7,6 +7,7 @@ package ec.edu.espol.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -101,7 +102,7 @@ public class Evaluacion {
         this.criterio = criterio;
     }
     
-    public static Evaluacion nextEvaluacion(Scanner sc) {
+    public static Evaluacion nextEvaluacion(Scanner sc) throws IOException {
         String emailJurado;
         int idInscripcion = 0;
         int criterioEvaluar = 0;

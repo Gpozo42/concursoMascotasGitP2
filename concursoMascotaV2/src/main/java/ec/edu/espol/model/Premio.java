@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 /**
  *
@@ -90,14 +89,11 @@ public class Premio {
     }
 
     //ARCHIVOS ECRITURA
-    public void saveFile(String archivo) {//modo append
+    public void saveFile(String archivo) throws IOException {//modo append
         try (FileWriter write = new FileWriter(archivo, true); BufferedWriter bf = new BufferedWriter(write)) {
             bf.write(this.toString());
             bf.newLine();
-        } catch (IOException e) {
-            System.out.println("Error. No se encontro el archivo");
-        }
-
+        } 
     }
 
     //ARCHIVOS LECTURA
@@ -121,7 +117,7 @@ public class Premio {
         return premios;
     }
 
-    public static void nextPremio(Concurso c, String descripcion, int lugar) {
+    public static void nextPremio(Concurso c, String descripcion, int lugar) throws IOException {
         
         Premio p = new Premio((lugar + 1), descripcion, c.getId(), c);
         p.saveFile("premios.txt");

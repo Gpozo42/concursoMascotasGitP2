@@ -7,6 +7,7 @@ package ec.edu.espol.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class Inscripcion {
         return evaluaciones;
     }
     
-    public static ArrayList<Inscripcion> nextInscripcion(Scanner sc) {
+    public static ArrayList<Inscripcion> nextInscripcion(Scanner sc) throws IOException {
         int contador = 0;
         int numMascotas = 0;
         ArrayList<Inscripcion> inscripciones = new ArrayList<>();

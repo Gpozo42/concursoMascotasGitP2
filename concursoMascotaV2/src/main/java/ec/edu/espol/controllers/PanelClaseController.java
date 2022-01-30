@@ -60,7 +60,7 @@ public class PanelClaseController implements Initializable {
                 }
                 if (nameClass.equals("criterios")) {
                     Concurso c = Concurso.anexarNombre(nameConcurso);
-                    Criterio.nextCriterio(c, nameClass);
+                    Criterio.nextCriterio(c, campos[i].getText());
                 }
             }
             Stage stg = (Stage) vb.getScene().getWindow();
@@ -70,6 +70,9 @@ public class PanelClaseController implements Initializable {
 
         } catch (ConcursoNotIndexException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "No se ha encontrado un concurso con ese nombre.");
+            a.show();
+        } catch (IOException ex) {
+            Alert a = new Alert(Alert.AlertType.ERROR, "Error en la lectura del archivo.");
             a.show();
         }
     }

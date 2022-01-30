@@ -7,6 +7,7 @@ package ec.edu.espol.controllers;
 
 import ec.edu.espol.model.Dueño;
 import ec.edu.espol.model.Mascota;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
@@ -71,6 +72,9 @@ public class PanelMascotaController implements Initializable {
             a.show();
         } catch (DateTimeParseException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "El formato escrito no es igual a (AAAA-MM-DD) o ha escrito \nmeses o dias fuera del rango ");
+            a.show();
+        } catch (IOException ex) {
+            Alert a = new Alert(Alert.AlertType.ERROR, "Error en la lectura");
             a.show();
         }
         

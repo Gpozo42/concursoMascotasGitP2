@@ -6,11 +6,10 @@
 package ec.edu.espol.model;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -107,12 +106,11 @@ public class Mascota {
 
     
     //ARCHIVOS ECRITURA
-    public void saveFile(String archivo) {//esta en append 
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
-            pw.println();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        public void saveFile(String archivo) throws IOException {//esta en append 
+        try (FileWriter write = new FileWriter(archivo,true); BufferedWriter bf = new BufferedWriter(write)) {
+            bf.write(this.toString());
+            bf.newLine();
+        } 
     }
 
     //ARCHIVOS LECTURA
@@ -127,7 +125,7 @@ public class Mascota {
                         datos[2],
                         datos[3],
                         LocalDate.parse(datos[4]),
-                        Integer.parseInt(datos[5]), 
+                        Integer.parseInt(datos[5]),
                         new Dueño(Integer.parseInt(datos[6]), datos[7], datos[8], datos[9], datos[10], datos[11]));//se crea un objeto mascota
                 mascota.add(m);
             }
@@ -138,7 +136,7 @@ public class Mascota {
     }
 
     //funciones estaticas
-    public static void nextMascota(String nombre, String tipo, String raza, String fecha, Dueño dueno) { 
+    public static void nextMascota(String nombre, String tipo, String raza, String fecha, Dueño dueno) throws IOException { 
         Mascota p = new Mascota(nombre, tipo, raza, LocalDate.parse(fecha), dueno.getId(), dueno);
         p.saveFile("mascotas.txt");
     }

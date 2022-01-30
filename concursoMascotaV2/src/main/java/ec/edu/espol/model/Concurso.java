@@ -5,9 +5,13 @@
  */
 package ec.edu.espol.model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -121,29 +125,40 @@ public class Concurso {
     }
 
     //ARCHIVOS ESCRITURA
-    public void saveFile(String archivo) {//esta en append 
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
-            pw.println(this.id + "|" + this.nombre + "|" + this.tematica + "|" + this.costo + "|" + this.fecha + "|" + this.fechaIncripcion + "|" + this.fechaCierreInscripcion);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+//    public void saveFile(String archivo) {//esta en append 
+//        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
+//            pw.println(this.id + "|" + this.nombre + "|" + this.tematica + "|" + this.costo + "|" + this.fecha + "|" + this.fechaIncripcion + "|" + this.fechaCierreInscripcion);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+    public void saveFile(String archivo) throws IOException {
+        try (FileWriter write = new FileWriter(archivo, true); BufferedWriter bf = new BufferedWriter(write)) {
+            bf.write(this.id + "|" + this.nombre + "|" + this.tematica + "|" + this.costo + "|" + this.fecha + "|" + this.fechaIncripcion + "|" + this.fechaCierreInscripcion);
+            bf.newLine();
         }
     }
 
     //ARCHIVOS LECTURA
-    public static ArrayList<Concurso> readFile(String archivo) {
-        ArrayList<Concurso> listaConcurso = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File(archivo))) {
-            while (sc.hasNextLine()) {//mientras exista la sguiente linea
-                String linea = sc.nextLine();
+    public static ArrayList<Concurso> readFile(String archivo) throws IOException {
+        ArrayList<Concurso> concursos = new ArrayList<>();
+        try (FileReader read = new FileReader(archivo); BufferedReader bf = new BufferedReader(read)) {
+            String linea;
+            while ((linea = bf.readLine()) != null) {
                 String[] datos = linea.split("\\|");
-                Concurso c = new Concurso(Integer.parseInt(datos[0]), datos[1], datos[2], Double.parseDouble(datos[3]), LocalDate.parse(datos[4]), LocalDate.parse(datos[5]), LocalDate.parse(datos[6]));//se crea un objeto concurso
-                listaConcurso.add(c);
+                Concurso c = new Concurso(Integer.parseInt(datos[0]),
+                        datos[1],
+                        datos[2],
+                        Double.parseDouble(datos[3]),
+                        LocalDate.parse(datos[4]),
+                        LocalDate.parse(datos[5]),
+                        LocalDate.parse(datos[6]));//se crea un objeto concurso
+                concursos.add(c);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
-
-        return listaConcurso;
+        return concursos;
     }
 
     //FUNCIONES ESTATICAS
@@ -152,10 +167,10 @@ public class Concurso {
         return c;
     }
 
-    public static Concurso anexarNombre(String nombre) throws ConcursoNotIndexException {//verifica si el inombre de la clase concurso es igual al enviado por teclado
+    public static Concurso anexarNombre(String nombre) throws ConcursoNotIndexException, IOException {//verifica si el inombre de la clase concurso es igual al enviado por teclado
         ArrayList<Concurso> lista = Concurso.readFile("concursos.txt");
         for (Concurso c : lista) {
-            if (nombre.equals(c.nombre)) {           
+            if (nombre.equals(c.nombre)) {
                 return c;
             }
         }

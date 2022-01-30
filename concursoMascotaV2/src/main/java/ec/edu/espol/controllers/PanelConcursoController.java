@@ -6,6 +6,7 @@
 package ec.edu.espol.controllers;
 
 import ec.edu.espol.model.Concurso;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
@@ -78,6 +79,9 @@ public class PanelConcursoController implements Initializable {
         } catch (DateTimeParseException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, "El formato escrito no es igual a (AAAA-MM-DD) o ha escrito \nmeses o dias fuera del rango ");
             a.show();
+        } catch (IOException ex) {
+            Alert a = new Alert(Alert.AlertType.ERROR, "Error al escribir el en archivo ");
+            a.show();;
         }
 
         exNom.setText("");

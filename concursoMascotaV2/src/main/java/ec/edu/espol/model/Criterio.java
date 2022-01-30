@@ -5,13 +5,14 @@
  */
 package ec.edu.espol.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  *
@@ -82,34 +83,38 @@ public class Criterio {
     public void setConcurso(Concurso concurso) {
         this.concurso = concurso;
     }
+    public String toString(){
+        return this.id + "|" + this.descripcion + "|" + this.idConcurso + "|" + this.concurso.toString();
+    }
 
-    public void saveFile(String archivo) {//esta en modo a(para añadir)
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(archivo), true))) {
-            pw.println(this.id + "|" + this.descripcion + "|" + this.idConcurso + "|" + this.concurso.toString());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    public void saveFile(String archivo) throws IOException{
+        try (FileWriter write = new FileWriter(archivo,true); BufferedWriter bf = new BufferedWriter(write)) {
+            bf.write(this.toString());
+            bf.newLine();
         }
     }
 
     //ARCHIVOS LECTURA
-    public static ArrayList<Criterio> readFile(String archivo) {
-        ArrayList<Criterio> criterios = new ArrayList<>();//creo una lista de criterios
-        try (Scanner sc = new Scanner(new File(archivo))) {
-            while (sc.hasNextLine()) {//mientras exista la sguiente linea
-                String linea = sc.nextLine();
-                String[] datos = linea.split("\\|");
-                Criterio cr = new Criterio(Integer.parseInt(datos[0]), datos[1], Integer.parseInt(datos[2]), new Concurso(Integer.parseInt(datos[3]), datos[4], datos[5], Double.parseDouble(datos[6]), LocalDate.parse(datos[7]), LocalDate.parse(datos[8]), LocalDate.parse(datos[9])));//se crea un objeto criterio
+    public static ArrayList<Criterio> readFile(String archivo) throws IOException {
+        ArrayList<Criterio> criterios = new ArrayList<>();
+        try (FileReader read = new FileReader(archivo); BufferedReader bf = new BufferedReader(read)) {
+            String linea;
+            while ((linea = bf.readLine()) != null) {
+                String[] datos=linea.split("\\|");
+                Criterio cr = new Criterio(Integer.parseInt(datos[0]),
+                        datos[1],
+                        Integer.parseInt(datos[2]),
+                        new Concurso(Integer.parseInt(datos[3]), datos[4], datos[5], Double.parseDouble(datos[6]), LocalDate.parse(datos[7]), LocalDate.parse(datos[8]), LocalDate.parse(datos[9])));//se crea un objeto criterio
                 criterios.add(cr);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
-
         return criterios;
     }
 
     //FUNCIONES ESTATICAS 
-    public static void nextCriterio(Concurso c, String descripcion) {
+    public static void nextCriterio(Concurso c, String descripcion) throws IOException {
         Criterio cr=new Criterio(descripcion,c.getId(),c);
         cr.saveFile("criterios.txt");
     }
