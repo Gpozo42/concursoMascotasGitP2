@@ -21,6 +21,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -37,8 +39,6 @@ public class VentanaEvaluacionesController implements Initializable {
     @FXML
     private Button btnHecho;
     @FXML
-    private Button btnCancelar;
-    @FXML
     private TextField txtEmailJurado;
     @FXML
     private TextField txtIdInscripcion;
@@ -46,6 +46,10 @@ public class VentanaEvaluacionesController implements Initializable {
     private TextField txtIdCriterio;
     @FXML
     private TextField txtNotaEvaluacion;
+    @FXML
+    private BorderPane ventana;
+    @FXML
+    private Button btnRegresar;
 
     /**
      * Initializes the controller class.
@@ -70,19 +74,18 @@ public class VentanaEvaluacionesController implements Initializable {
             creacionObjecto();
             limpiezaFields();
             } 
+        catch (NumberFormatException e) {
+            Alert a = new Alert(AlertType.WARNING, "Ha ingreso letras en lugar de números");
+            a.show();
+        }
         catch (NullPointerException e) {
             Alert a = new Alert(AlertType.WARNING, "Falta de ingresar datos");
             a.show();
         }
     }
 
-    @FXML
-    private void cancelar(MouseEvent event) {
-        limpiezaFields();
-        //Añadir cambio de escena
-    }
     
-    private void creacionObjecto() throws NullPointerException {
+    private void creacionObjecto() throws NullPointerException, NumberFormatException {
         int idInscripcion = Integer.parseInt(txtIdInscripcion.getText());
         int idCriterio = Integer.parseInt(txtIdCriterio.getText());
         String emailJurado = txtEmailJurado.getText();
@@ -106,5 +109,11 @@ public class VentanaEvaluacionesController implements Initializable {
         txtEmailJurado.setText("");
         txtNotaEvaluacion.setText("");
         
+    }
+
+    @FXML
+    private void regresar(MouseEvent event) {
+        Stage stg = (Stage) ventana.getScene().getWindow();
+        stg.close();
     }
 }

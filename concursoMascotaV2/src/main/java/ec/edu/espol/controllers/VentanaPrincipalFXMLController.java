@@ -53,6 +53,15 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaDuenio(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("ventanaDuenioFXML");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "No se pudo abrir la ventana");
+        }
     }
 
     @FXML
@@ -115,14 +124,41 @@ public class VentanaPrincipalFXMLController implements Initializable {
 
     @FXML
     private void escenaInscripcion(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("ventanaInscripcionesFXML");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "No se pudo abrir la ventana");
+        }
     }
 
     @FXML
     private void escenaMiembroJurado(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("ventanaMiembroJuradoFXML");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "No se pudo abrir la ventana");
+        }
     }
 
     @FXML
     private void escenaEvaluacion(MouseEvent event) {
+        try {
+            FXMLLoader loader = App.loadFXML("ventanaEvaluaciones");
+            Scene sc = new Scene(loader.load(), 800, 500);
+            Stage sg = new Stage();
+            sg.setScene(sc);
+            sg.show();
+        } catch (IOException e) {
+            Alert a = new Alert(AlertType.ERROR, "No se pudo abrir la ventana");
+        }
     }
 
 }
