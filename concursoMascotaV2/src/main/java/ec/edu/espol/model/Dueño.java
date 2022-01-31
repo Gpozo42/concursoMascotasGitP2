@@ -5,11 +5,12 @@
  */
 package ec.edu.espol.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *
@@ -64,31 +65,14 @@ public class Dueño extends Persona
         }
     }
     
-    public static Dueño nextDueño(Scanner sc) {
-        String nombres;
-        String apellidos;
-        String telefono;
-        String email;
-        String direccion;
-        
-        System.out.println("Ingrese sus nombres: ");
-        nombres = sc.next();
-        System.out.println("Ingrese sus apellidos: ");
-        apellidos = sc.next();
-        System.out.println("Ingrese su número de teléfono: ");
-        telefono = sc.next();
-        System.out.println("Ingrese su dirección de correo electrónico: ");
-        email = sc.next();
-        System.out.println("Ingrese su dirección de hogar: ");
-        direccion = sc.next();
-        
-        return new Dueño(Util.nextID("dueños.txt"), nombres, apellidos, telefono, email, direccion);
-    }
-    
     // Guardado y lectura de archivos
     public void saveFile(String nomFile){
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))) { // Modo append
-            pw.println(this.toString()); //Solo se guarda hasta la direccion, no es posible guardar una lista de otros objetos
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomFile))) { // Modo append
+            bw.write(this.toString()); //Solo se guarda hasta la direccion, no es posible guardar una lista de otros objetos
+            bw.newLine();
+        }
+        catch (IOException e) {
+            
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -99,15 +83,21 @@ public class Dueño extends Persona
     public static ArrayList<Dueño> readFile(String nomFile) {
         ArrayList<Dueño> dueños = new ArrayList<>();
         
-        try (Scanner sc = new Scanner(new File(nomFile))) {
-            while (sc.hasNextLine()) {
-                String linea = sc.nextLine(); // linea = id|nombres|apellidos|telefono|email|direccion
+        try (BufferedReader br = new BufferedReader(new FileReader(nomFile))) {
+            String linea;
+            while ((linea = br.readLine()) != null) { // linea = id|nombres|apellidos|telefono|email|direccion
                 String[] datos = linea.split("\\|"); //Eliminamos el punto y hacemos el split
                 dueños.add( new Dueño(Integer.parseInt(datos[0]), datos[1], datos[2], datos[3], datos[4], datos[5]) );
                 /*
                 Se agregan argumentos nulos y listas vacías, en el Main se generará el cambio por medio del uso de setters
                 */
             }
+        }
+        catch (IOException e) {
+            
+        }
+        catch (NumberFormatException e) {
+            
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

@@ -5,11 +5,13 @@
  */
 package ec.edu.espol.model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *
@@ -38,36 +40,15 @@ public class MiembroJurado extends Persona{
         this.evaluaciones = evaluaciones;
     }
     
-    // Comportamientos adicionales
-    
-    public static MiembroJurado nextMiembroJurado(Scanner sc) {
-        String nombre;
-        String apellido;
-        String numTelefono;
-        String email;
-        String perfil;
-        ArrayList<Evaluacion> evaluaciones = new ArrayList<>();
-        
-        System.out.println("Escriba su nombre: ");
-        nombre = sc.nextLine();
-        System.out.println("Escriba su apellido: ");
-        apellido = sc.nextLine();
-        System.out.println("Indique su número de celular: ");
-        numTelefono = sc.nextLine();
-        System.out.println("Indique su email: ");
-        email = sc.nextLine();
-        System.out.println("Indique su perfil profesional: ");
-        perfil = sc.nextLine();
-        
-        return new MiembroJurado(Util.nextID("miembroJurados.txt"), nombre, apellido, numTelefono, email, perfil, evaluaciones);
-    }
-    
-    
     // Guardado y lectura de archivos
     public void saveFile(String nomFile){
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))) { // Modo append
-            pw.println(super.toString() + "\\|" + this.perfil);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(nomFile), true))) { // Modo append
+            bw.write(this.toString());
+            bw.newLine();
             // Solo se guarda hasta perfil, en el momento de la 
+        }
+        catch (IOException e) {
+            
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -78,15 +59,18 @@ public class MiembroJurado extends Persona{
     public static ArrayList<MiembroJurado> readFile(String nomFile) {
         ArrayList<MiembroJurado> miembrosJurado = new ArrayList<>();
         
-        try (Scanner sc = new Scanner(new File(nomFile))) {
-            while (sc.hasNextLine()) {
-                String linea = sc.nextLine(); // linea = id|nombres|apellidos|telefono|email|perfil
+        try (BufferedReader br = new BufferedReader(new FileReader(nomFile))) {
+            String linea;
+            while ((linea = br.readLine()) != null) { // linea = id|nombres|apellidos|telefono|email|perfil
                 String[] datos = linea.split("\\|"); //Eliminamos | y hacemos el split
                 miembrosJurado.add( new MiembroJurado(Integer.parseInt(datos[0]), datos[1], datos[2], datos[3], datos[4], datos[5], new ArrayList<Evaluacion>()) ) ;
                 /*
                 Al momento de la lectura, solo se envía el ArrayList vacío para luego ser inicializado en el Main con el setter
                 */
             }
+        }
+        catch (IOException e) {
+            
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

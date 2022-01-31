@@ -6,12 +6,13 @@
 package ec.edu.espol.model;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
 
 /**
  *
@@ -102,39 +103,18 @@ public class Evaluacion {
         this.criterio = criterio;
     }
     
-    public static Evaluacion nextEvaluacion(Scanner sc) throws IOException {
-        String emailJurado;
-        int idInscripcion = 0;
-        int criterioEvaluar = 0;
-        double notaEvaluacion = 0;
-        MiembroJurado mjFiltrado = null;
-        Inscripcion inscripcionFiltrada = null;
-        Criterio criterioFiltrado = null;
-        
-        System.out.println("Ingrese su mail de jurado");
-        emailJurado = sc.next();
-        System.out.println("Ingrese el id de Inscripcion");
-        if (sc.hasNextInt()) idInscripcion = sc.nextInt();
-        System.out.println("Ingrese el criterio a evaluar");
-        if (sc.hasNextInt()) criterioEvaluar = sc.nextInt();
-        System.out.println("Ingrese la nota de evaluacion");
-        if (sc.hasNextDouble()) notaEvaluacion = sc.nextDouble();
-        
-        for (MiembroJurado mj : MiembroJurado.readFile("miembroJurados.txt")) if (Objects.equals(emailJurado, mj.getEmail())) mjFiltrado = mj;
-        for (Inscripcion i : Inscripcion.readFile("inscripciones.txt")) if (idInscripcion == i.getId()) inscripcionFiltrada = i;
-        for (Criterio c : Criterio.readFile("criterios.txt")) if(criterioEvaluar == c.getId()) criterioFiltrado = c;
-        
-        if (mjFiltrado != null && inscripcionFiltrada != null && criterioFiltrado != null) return new Evaluacion(Util.nextID("evaluaciones.txt"), idInscripcion, inscripcionFiltrada, mjFiltrado.getId(), mjFiltrado, notaEvaluacion, criterioFiltrado.getId(), criterioFiltrado);
-        return null;
-    }
-    
+
+    //Lectura y guardado de archivos
     public void saveFile(String nomFile){
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))) { // Modo append
-            pw.println(this.toString());
-            // Solo se guardan los Ids, los objetos son totalmente innecesarios de guardar
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomFile, true))) { // Modo append
+            bw.write(this.toString());
+            bw.newLine();
+            // Solo se guardan los Ids, los objetos no son posibles de guardar
         }
-        catch (Exception e){
+        catch (IOException e){
             System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
         }
         
     }
@@ -142,15 +122,18 @@ public class Evaluacion {
     public static ArrayList<Evaluacion> readFile(String nomFile) {
         ArrayList<Evaluacion> evaluaciones = new ArrayList<>();
         
-        try (Scanner sc = new Scanner(new File(nomFile))) {
-            while (sc.hasNextLine()) {
-                String linea = sc.nextLine(); // linea = id|idInscripcion|idMiembroJurado|nota|idCriterio
+        try (BufferedReader br = new BufferedReader(new FileReader(nomFile))) {
+            String linea;
+            while ((linea = br.readLine()) != null) { // linea = id|idInscripcion|idMiembroJurado|nota|idCriterio
                 String[] datos = linea.split("\\|"); //Eliminamos | y hacemos el split
                 evaluaciones.add( new Evaluacion(Integer.parseInt(datos[0]), Integer.parseInt(datos[1]), null, Integer.parseInt(datos[2]), null, Double.parseDouble(datos[3]), Integer.parseInt(datos[4]), null) );
                 /*
                 Los argumentos con null, serán reemplazados por los objetos dependiendo de su id. Esto se elabora en el Main con los setters
                 */
             }
+        }
+        catch (IOException e) {
+            
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
