@@ -10,6 +10,8 @@ import ec.edu.espol.model.Mascota;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +28,7 @@ import javafx.stage.Stage;
  */
 public class PanelMascotaController implements Initializable {
 
+    private ArrayList<Dueño> duenios;
     @FXML
     private TextField tfNombre;
     @FXML
@@ -45,6 +48,7 @@ public class PanelMascotaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        duenios = Dueño.readFile("dueños.txt");
     }
 
     @FXML
@@ -60,7 +64,7 @@ public class PanelMascotaController implements Initializable {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Exiten campos vacios. Por favor, rellenarlos");
                 a.show();
             }else{
-                Dueño d= Dueño.anexarEmail(correo);
+                Dueño d= anexarEmail(correo, duenios);
                 Mascota.nextMascota(nombre, tipo, raza, fechaNacimiento, d);
                 Alert inf = new Alert(Alert.AlertType.INFORMATION, "Se ha guardado el concurso exitosamente");
                 inf.show();
@@ -77,6 +81,10 @@ public class PanelMascotaController implements Initializable {
             Alert a = new Alert(Alert.AlertType.ERROR, "Error en la lectura");
             a.show();
         }
+        catch (NullPointerException e) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "El email ya existe en el sistema");
+            a.show();
+        }
         
         tfNombre.setText("");
         tfRaza.setText("");
@@ -91,5 +99,11 @@ public class PanelMascotaController implements Initializable {
         Stage stg = (Stage) ventana.getScene().getWindow();
         stg.close();
     }
-
+    
+    public static Dueño anexarEmail(String correo, ArrayList<Dueño> duenios) throws NullPointerException {
+        for (Dueño d : duenios) {
+            if (Objects.equals(correo, d.getEmail())) return d;
+        }
+        throw new NullPointerException();
+    }
 }
