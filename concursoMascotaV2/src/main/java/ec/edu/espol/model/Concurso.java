@@ -140,7 +140,7 @@ public class Concurso {
     }
 
     //ARCHIVOS LECTURA
-    public static ArrayList<Concurso> readFile(String archivo) throws IOException {
+    public static ArrayList<Concurso> readFile(String archivo) {
         ArrayList<Concurso> concursos = new ArrayList<>();
         try (FileReader read = new FileReader(archivo); BufferedReader bf = new BufferedReader(read)) {
             String linea;
@@ -155,8 +155,9 @@ public class Concurso {
                         LocalDate.parse(datos[6]));//se crea un objeto concurso
                 concursos.add(c);
             }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+        }
+        catch (IOException e) {
+            
         }
         return concursos;
     }
