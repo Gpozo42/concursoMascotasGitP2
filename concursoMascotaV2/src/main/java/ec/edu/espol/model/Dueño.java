@@ -52,7 +52,7 @@ public class Dueño extends Persona
     
     // Guardado y lectura de archivos
     public void saveFile(String nomFile){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomFile))) { // Modo append
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomFile, true))) { // Modo append
             bw.write(this.toString()); //Solo se guarda hasta la direccion, no es posible guardar una lista de otros objetos
             bw.newLine();
         }
