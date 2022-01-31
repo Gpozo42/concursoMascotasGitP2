@@ -50,21 +50,6 @@ public class Dueño extends Persona
        
     }
     
-    public static Dueño anexarEmail(String email) {//verifica si el email de la clase dueno es igual al enviado por teclado
-        ArrayList<Dueño> lista = Dueño.readFile("Dueños.txt");
-        while (true) {
-            for (Dueño c : lista) {
-                if (email.equals(c.email)) {
-                    return c;
-                }
-            }
-            System.out.println("Ingrese un email de dueño ya existente: ");
-            Scanner sc = new Scanner(System.in);
-            sc.useDelimiter("\n");
-            email = sc.next();
-        }
-    }
-    
     // Guardado y lectura de archivos
     public void saveFile(String nomFile){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomFile))) { // Modo append
